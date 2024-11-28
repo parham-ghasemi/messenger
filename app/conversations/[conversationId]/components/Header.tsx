@@ -7,39 +7,46 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { HiChevronLeft, HiEllipsisHorizontal } from "react-icons/hi2";
 import ProfileDrawer from "./ProfileDrawer";
+import AvatarGroup from "@/app/components/AvatarGroup";
 
 interface HeaderProps {
-    conversaiton: Conversation & {
+    conversation: Conversation & {
         users: User[]
     }
 }
 
-const Header: React.FC<HeaderProps> = ({conversaiton}) => {
+const Header: React.FC<HeaderProps> = ({conversation}) => {
 
-    const otherUser = useOtherUser(conversaiton);
+    const otherUser = useOtherUser(conversation);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     const statusText = useMemo(()=>{
-        if(conversaiton.isGroup){
-            return `${conversaiton.users.length} members`
+        if(conversation.isGroup){
+            return `${conversation.users.length} members`
         }
 
         return 'Active'
-    },[conversaiton])
+    },[conversation])
 
     return(
         <>
-            <ProfileDrawer data={conversaiton} isOpen={drawerOpen} onClose={()=> setDrawerOpen(false)} />
+            <ProfileDrawer data={conversation} isOpen={drawerOpen} onClose={()=> setDrawerOpen(false)} />
 
             <div className="bg-white w-full flex border-b-[1px] sm:px-4 py-3 px-4 lg:px-6 justify-between items-center shadow-sm">
                 <div className="flex gap-3 items-center">
                     <Link href='/conversations' className="lg:hidden block text-sky-500 hover:text-sky-600 transition cursor-pointer">
                         <HiChevronLeft size={32} />
                     </Link>
-                    <Avatar user={otherUser} />
+                    {
+                      conversation.isGroup ? (
+                        <AvatarGroup users={conversation.users} />
+                      ) : (
+                      <Avatar user={otherUser} />
+                      )
+                    }
                     <div className="flex flex-col">
                         <div>
-                            {conversaiton.name || otherUser.name}
+                            {conversation.name || otherUser.name}
                         </div>
                         <div className="text-sm font-light text-neutral-500">
                             {statusText}
