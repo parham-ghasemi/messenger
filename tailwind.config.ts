@@ -8,7 +8,7 @@ export default {
   ],
   theme: {},
   plugins: [
-    require("../messenger-clone/node_modules/@tailwindcss/forms")({
+    require("@tailwindcss/forms")({
       strategy: 'class'
     })
   ],
