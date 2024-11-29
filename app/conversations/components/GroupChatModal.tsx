@@ -4,7 +4,6 @@ import Button from "@/app/components/Button";
 import Input from "@/app/components/inputs/Input";
 import Select from "@/app/components/inputs/Select";
 import Modal from "@/app/components/Modal";
-import { Label } from "@headlessui/react";
 import { User } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
