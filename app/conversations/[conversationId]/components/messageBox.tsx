@@ -19,8 +19,8 @@ const MessageBox:React.FC<MessageBoxProps> = ({data, isLast}) => {
     const session = useSession();
     const [imageModalOpen, setImageModalOpen] = useState(false);
 
-    const isOwn = session?.data?.user?.email === data?.sender?.email;
-    const seenList = (data.seen || []).filter((user)=> user.email !== data?.sender?.email).map((user)=> user.name).join(', ');
+    const isOwn = session?.data?.user?.phoneNumber === data?.sender?.phoneNumber;
+    const seenList = (data.seen || []).filter((user)=> user.phoneNumber !== data?.sender?.phoneNumber).map((user)=> user.name).join(', ');
 
     const container = clsx('flex gap-3 p-4', isOwn && 'justify-end');
 

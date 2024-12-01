@@ -9,12 +9,12 @@ const useOtherUser = (conversation: FullConversationType | {
 }) => {
     const session = useSession();
     const otherUser = useMemo(()=>{
-        const currentUserEmail = session?.data?.user?.email;
+        const currentUserphoneNumber = session?.data?.user?.phoneNumber;
 
-        const otherUser = conversation.users.filter((user) => user.email !== currentUserEmail);
+        const otherUser = conversation.users.filter((user) => user.phoneNumber !== currentUserphoneNumber);
 
         return otherUser[0];
-    },[session?.data?.user?.email, conversation.users]);
+    },[session?.data?.user?.phoneNumber, conversation.users]);
 
     return otherUser;
 }

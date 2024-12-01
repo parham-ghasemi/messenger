@@ -9,7 +9,7 @@ export async function POST(request:Request) {
         const body = await request.json();
         const {message, image, conversationId} = body;
 
-        if(!currnetUser?.id || !currnetUser?.email){
+        if(!currnetUser?.id || !currnetUser?.phoneNumber){
             return new NextResponse('Unauthorized', {status: 401});
         }
 
@@ -66,7 +66,7 @@ export async function POST(request:Request) {
         const lastMessage = updatedConversation.messages[updatedConversation.messages.length -1]
 
         updatedConversation.users.map((user) => {
-          pusherServer.trigger(user.email!, 'conversation:update', {
+          pusherServer.trigger(user.phoneNumber!, 'conversation:update', {
             id: conversationId,
             messages: [lastMessage]
           })

@@ -28,7 +28,7 @@ const ProfileDrawer:React.FC<ProfileDrawerProps> = ({isOpen, onClose, data}) => 
     const [unAvalableOpen, setUnAvalableOpen] = useState(false)
 
     const { members } = useActiveList();
-    const isActive = members.indexOf(otherUser?.email!) !== -1;
+    const isActive = members.indexOf(otherUser?.phoneNumber!) !== -1;
 
     const joinDate = useMemo(()=>{
         return format(new Date(otherUser.createdAt), 'PP')
@@ -110,11 +110,16 @@ const ProfileDrawer:React.FC<ProfileDrawerProps> = ({isOpen, onClose, data}) => 
                                                       data.isGroup && (
                                                         <div>
                                                           <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
-                                                            Emails
+                                                            phoneNumbers
                                                           </dt>
-                                                          <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                                          <dd className="mt-1 text-sm  sm:col-span-2">
                                                             {
-                                                              data.users.map((user) => user.email).join(', ')
+                                                              data.users.map((user) =>(
+                                                                <>
+                                                                  <p className="text-gray-900">{user.name}</p>
+                                                                  <p className="text-gray-600">{user.phoneNumber}</p>
+                                                                </>
+                                                              ))
                                                             }
                                                           </dd>
                                                         </div>
@@ -123,10 +128,10 @@ const ProfileDrawer:React.FC<ProfileDrawerProps> = ({isOpen, onClose, data}) => 
                                                     {!data.isGroup && (
                                                       <div>
                                                         <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0" >
-                                                          Email
+                                                          phoneNumber
                                                         </dt>
-                                                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                                          {otherUser.email}
+                                                        <dd className="mt-1 text-sm sm:col-span-2">
+                                                          <p className="text-gray-900">{otherUser.phoneNumber}</p>
                                                         </dd>
                                                       </div>
                                                     )}

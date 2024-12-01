@@ -16,7 +16,7 @@ export async function POST(request:Request) {
             name
         } = body;
 
-        if(!currentUser?.id || !currentUser?.email){
+        if(!currentUser?.id || !currentUser?.phoneNumber){
             return new NextResponse('Unauthorized', { status: 401 })
         }
 
@@ -46,8 +46,8 @@ export async function POST(request:Request) {
             })
 
             newConversation.users.forEach((user) => {
-              if ( user.email ) {
-                pusherServer.trigger(user.email, 'conversation:new', newConversation)
+              if ( user.phoneNumber ) {
+                pusherServer.trigger(user.phoneNumber, 'conversation:new', newConversation)
               }
             })
 
@@ -95,8 +95,8 @@ export async function POST(request:Request) {
         })
 
         newConversation.users.map((user) => {
-          if(user.email) {
-            pusherServer.trigger(user.email, 'conversation:new', newConversation);
+          if(user.phoneNumber) {
+            pusherServer.trigger(user.phoneNumber, 'conversation:new', newConversation);
           }
         })
 

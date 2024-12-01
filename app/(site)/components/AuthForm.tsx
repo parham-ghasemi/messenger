@@ -43,7 +43,7 @@ export default function AuthForm() {
   } = useForm<FieldValues>({
     defaultValues: {
       name: '',
-      email: '',
+      phoneNumber: '',
       password: ''
     }
   })
@@ -109,7 +109,7 @@ return (
         {variant === 'REGISTER' && (
           <Input disabled={isLoading} label="Name" register={register} id="name" errors={errors} />
         )}
-        <Input disabled={isLoading} label="Email Address" type="email" register={register} id="email" errors={errors} />
+        <Input disabled={isLoading} label="Phone number" type="phoneNumber" register={register} id="phoneNumber" errors={errors} />
         <Input disabled={isLoading} label="Password" type="password" register={register} id="password" errors={errors} />
         <div>
           <Button

@@ -12,7 +12,7 @@ export async function POST(request:Request, { params }:{params:IParams}) {
         const currentUser = await getCurrentUser();
         const {conversationId} = params;
 
-        if(!currentUser?.id || !currentUser?.email){
+        if(!currentUser?.id || !currentUser?.phoneNumber){
             return new NextResponse('Unauthorized', {status: 401})
         }
 
@@ -60,7 +60,7 @@ export async function POST(request:Request, { params }:{params:IParams}) {
             }
         })
 
-        await pusherServer.trigger(currentUser.email, 'conversation:update', {
+        await pusherServer.trigger(currentUser.phoneNumber, 'conversation:update', {
           id: conversationId,
           messages: [updatedMessage]
         });

@@ -44,8 +44,8 @@ export async function DELETE(
     });
 
     existingConversation.users.forEach((user) => {
-      if (user.email) {
-        pusherServer.trigger(user.email, 'conversation:remove', existingConversation);
+      if (user.phoneNumber) {
+        pusherServer.trigger(user.phoneNumber, 'conversation:remove', existingConversation);
       }
     });
 

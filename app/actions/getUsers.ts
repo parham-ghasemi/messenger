@@ -5,7 +5,7 @@ import getSession from "./getSession"
 
 const getUsers = async () => {
     const session = await getSession();
-    if(!session?.user?.email){
+    if(!session?.user?.phoneNumber){
         return []
     }
 
@@ -16,7 +16,7 @@ const getUsers = async () => {
             },
             where:{
                 NOT:{
-                    email: session.user.email
+                    phoneNumber: session.user.phoneNumber
                 }
             }
         })

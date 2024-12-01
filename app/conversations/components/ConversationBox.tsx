@@ -30,9 +30,9 @@ const ConversationBox:React.FC<ConversationBoxProps> = ({data, selected}) => {
         return messages[messages.length-1]
     }, [data.messages])
 
-    const userEmail = useMemo(()=>{
-        return session.data?.user?.email;
-    }, [session.data?.user?.email])
+    const userphoneNumber = useMemo(()=>{
+        return session.data?.user?.phoneNumber;
+    }, [session.data?.user?.phoneNumber])
 
     const hasSeen = useMemo(()=>{
         if(!lastMessage){
@@ -41,12 +41,12 @@ const ConversationBox:React.FC<ConversationBoxProps> = ({data, selected}) => {
 
         const seenArrey = lastMessage.seen || [];
 
-        if(!userEmail){
+        if(!userphoneNumber){
             return false;
         }
 
-        return seenArrey.filter((user) => user.email === userEmail).length !== 0;
-    },[userEmail, lastMessage])
+        return seenArrey.filter((user) => user.phoneNumber === userphoneNumber).length !== 0;
+    },[userphoneNumber, lastMessage])
 
     const lastMessageText = useMemo(()=>{
         if(lastMessage?.image) {

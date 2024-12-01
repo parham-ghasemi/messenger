@@ -10,14 +10,14 @@ export default async function handler(
 ) {
   const session = await getServerSession(request, response, authOptions);
 
-  if (!session?.user?.email) {
+  if (!session?.user?.phoneNumber) {
     return response.status(401);
   }
 
   const socketId = request.body.socket_id;
   const channel = request.body.channel_name;
   const data = {
-    user_id: session.user.email,
+    user_id: session.user.phoneNumber,
   };
 
   const authResponse = pusherServer.authorizeChannel(socketId, channel, data);

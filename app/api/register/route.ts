@@ -8,12 +8,12 @@ export async function POST( request: Request){
         const body = await request.json();
 
         const {
-            email, 
+            phoneNumber, 
             name, 
             password
         } = body;
 
-        if(!email || !name || !password){
+        if(!phoneNumber || !name || !password){
             return new NextResponse('Missing info', {status: 400})
         }
 
@@ -21,7 +21,7 @@ export async function POST( request: Request){
 
         const user = await prisma.user.create({
             data:{
-                email, 
+                phoneNumber, 
                 name,
                 hashedPassword
             }

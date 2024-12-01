@@ -28,8 +28,8 @@ const ConversationList: React.FC<ConversationListProps> = ({initialItems, users}
     const { conversationId, isOpen } = useConversation();
 
     const pusherkey = useMemo(() => {
-      return session.data?.user?.email;
-    }, [session.data?.user?.email]);
+      return session.data?.user?.phoneNumber;
+    }, [session.data?.user?.phoneNumber]);
 
     useEffect(() => {
       if(!pusherkey){
