@@ -66,7 +66,7 @@ export default function AuthForm() {
             router.push('/conversations')
           }
         })
-        .catch(() => toast.error('Something went wrong!'))
+        .catch(() => toast.error('Invalid credentials'))
         .finally(() => setIsLoading(false))
     }
 
@@ -77,7 +77,7 @@ export default function AuthForm() {
       })
         .then((callback) => {
           if (callback?.error) {
-            toast.error('Invalid credentials!');
+            toast.error('Invalid credentials');
           }
 
           if (callback?.ok) {
@@ -109,7 +109,7 @@ return (
         {variant === 'REGISTER' && (
           <Input disabled={isLoading} label="Name" register={register} id="name" errors={errors} />
         )}
-        <Input disabled={isLoading} label="Phone number" type="phoneNumber" register={register} id="phoneNumber" errors={errors} />
+        <Input disabled={isLoading} label="Phone number" type="tel" register={register} id="phoneNumber" errors={errors} />
         <Input disabled={isLoading} label="Password" type="password" register={register} id="password" errors={errors} />
         <div>
           <Button
