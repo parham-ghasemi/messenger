@@ -8,6 +8,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 type Variant = 'LOGIN' | "REGISTER";
 
@@ -16,6 +17,7 @@ export default function AuthForm() {
   const router = useRouter();
   const [variant, setVariant] = useState<Variant>('LOGIN');
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const toggleVariant = useCallback(() => {
     if (variant === 'LOGIN') {
@@ -87,51 +89,46 @@ export default function AuthForm() {
     }
   }
 
+  return (
+    <div className=" mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className=" bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          {variant === 'REGISTER' && (
+            <Input disabled={isLoading} label="Name" register={register} id="name" errors={errors} />
+          )}
+          <Input disabled={isLoading} label="Phone number" type="tel" register={register} id="phoneNumber" errors={errors} />
+          <div className="relative">
+            <Input disabled={isLoading} label={'Password'} type={passwordVisible ? 'text' : 'password'} register={register} id="password" errors={errors} />
+            <div className="absolute right-3 bottom-2.5 cursor-pointer" onClick={() => setPasswordVisible(!passwordVisible)}>
+              {
+                !passwordVisible ? <FaRegEye /> : <FaRegEyeSlash />
+              }
+            </div>
+          </div>
 
-const socialAction = (action: string) => {
-  setIsLoading(true);
-  signIn(action, { redirect: false }).then((callback) => {
-    if (callback?.error) {
-      toast.error('Ivalid credentails')
-    }
-    if (callback?.ok && !callback?.error) {
-      toast.success('Success')
-    }
-  })
-}
+          <div>
+            <Button
+              disabled={isLoading}
+              fullWidth
+              type="submit"
+            >
+              {
+                variant === 'LOGIN' ? 'Sign in' : 'Register'
+              }
+            </Button>
+          </div>
+        </form>
 
-return (
-  <div className=" mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-    <div className=" bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
-      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-        {variant === 'REGISTER' && (
-          <Input disabled={isLoading} label="Name" register={register} id="name" errors={errors} />
-        )}
-        <Input disabled={isLoading} label="Phone number" type="tel" register={register} id="phoneNumber" errors={errors} />
-        <Input disabled={isLoading} label="Password" type="password" register={register} id="password" errors={errors} />
-        <div>
-          <Button
-            disabled={isLoading}
-            fullWidth
-            type="submit"
-          >
-            {
-              variant === 'LOGIN' ? 'Sign in' : 'Register'
-            }
-          </Button>
+        <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
+          <div>
+            {variant === 'LOGIN' ? 'New to Messenger?' : 'Already have an account?'}
+          </div>
+          <div onClick={toggleVariant} className="underline cursor-pointer hover:text-gray-800">
+            {variant === 'LOGIN' ? 'Create an account' : 'Log in'}
+          </div>
         </div>
-      </form>
-      
-      <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
-        <div>
-          {variant === 'LOGIN' ? 'New to Messenger?' : 'Already have an account?'}
-        </div>
-        <div onClick={toggleVariant} className="underline cursor-pointer hover:text-gray-800">
-          {variant === 'LOGIN' ? 'Create an account' : 'Log in'}
-        </div>
+
       </div>
-
     </div>
-  </div>
-)
+  )
 }
