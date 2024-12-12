@@ -43,15 +43,13 @@ const authOptions: AuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // Add `phoneNumber` to the JWT when the user signs in
       if (user) {
         token.id = user.id;
-        token.phoneNumber = user.phoneNumber; // This assumes `user.phoneNumber` exists in your user model
+        token.phoneNumber = user.phoneNumber; 
       }
       return token;
     },
     async session({ session, token }) {
-      // Add `phoneNumber` to the session object
       if (session.user) {
         session.user.id = token.id as string;
         session.user.phoneNumber = token.phoneNumber as string;

@@ -3,7 +3,7 @@ import NextAuth from "next-auth";
 declare module "next-auth" {
   interface User {
     id: string;
-    phoneNumber?: string | null; // Add your custom property here
+    phoneNumber?: string | null; 
   }
 
   interface Session {
