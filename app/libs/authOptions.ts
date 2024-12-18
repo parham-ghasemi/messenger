@@ -24,8 +24,13 @@ const authOptions: AuthOptions = {
             phoneNumber: credentials.phoneNumber
           }
         });
+
         if (!user || !user?.hashedPassword) {
           throw new Error('Invalid Credentials');
+        }
+
+        if(!user.verified){
+          throw new Error('Account not verified')
         }
 
         const isCorrectPassword = await bcrypt.compare(
