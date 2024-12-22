@@ -1,4 +1,3 @@
-
 'use client'
 import { useEffect, useRef, useState } from "react";
 
@@ -8,14 +7,20 @@ function VerificationCodeInput({ setInput }: { setInput: (code: string) => void 
 
   const handleInput = (e: React.FormEvent<HTMLInputElement>, index: number) => {
     const target = e.target as HTMLInputElement;
+    const newCode = [...code.split('')];
+    newCode[index] = target.value;
+    setCode(newCode.join(''));
+
     if (target.value.length >= target.maxLength) {
       if (index < inputRefs.current.length - 1) {
         inputRefs.current[index + 1]?.focus();
       }
+    }
+  };
 
-      const newCode = [...code.split('')];
-      newCode[index] = target.value;
-      setCode(newCode.join(''));
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+    if (e.key === 'Backspace' && !code[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
     }
   };
 
@@ -37,10 +42,11 @@ function VerificationCodeInput({ setInput }: { setInput: (code: string) => void 
           className="ring-2 ring-neutral-400 h-20 w-12 rounded-lg text-center text-2xl"
           placeholder="-"
           maxLength={1}
-          onInput={(e) => handleInput(e, index)}
+          value={code[index] || ''}
+          onChange={(e) => handleInput(e, index)}
+          onKeyDown={(e) => handleKeyDown(e, index)}
         />
       ))}
-
     </div>
   );
 }
