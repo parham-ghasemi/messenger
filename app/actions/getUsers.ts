@@ -1,4 +1,3 @@
-
 import prisma from "@/app/libs/prismadb"
 
 import getSession from "./getSession"
@@ -17,6 +16,9 @@ const getUsers = async () => {
             where:{
                 NOT:{
                     phoneNumber: session.user.phoneNumber
+                },
+                AND: {
+                    verified: true // Only return verified users
                 }
             }
         })

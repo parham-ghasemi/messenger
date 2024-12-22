@@ -10,6 +10,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import VerificationCodeInput from "@/app/components/inputs/VerificationCodeInput";
+import useCleanupOnLeave from '@/app/hooks/useCleanupOnLeave';
 
 type Variant = 'LOGIN' | "REGISTER";
 
@@ -142,6 +143,14 @@ export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerif
       });
   };
 
+  useCleanupOnLeave(phoneNumber, onVerifyPage);
+
+  const handleGoBack = useCallback(() => {
+    setOnVerifyPage(false);
+    setPhoneNumber('');
+    setPassword('');
+  }, []);
+
   return (
     <div className=" mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       {
@@ -190,7 +199,14 @@ export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerif
             <VerificationCodeInput setInput={setUserVerifyInput} />
             <Button onClick={handleVerify} disabled={isLoading} >Verify</Button>
             <div className="flex flex-col gap-2">
-              <p className="text-sm">Wrong Number?<span onClick={() => setOnVerifyPage(false)} className="cursor-pointer underline text-sky-800 ps-2">Go back</span></p>
+              <p className="text-sm">Wrong Number?
+                <span 
+                    onClick={handleGoBack} 
+                    className="cursor-pointer underline text-sky-800 ps-2"
+                >
+                    Go back
+                </span>
+              </p>
             </div>
           </div>
         )
