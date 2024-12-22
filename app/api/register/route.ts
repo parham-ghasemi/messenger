@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 import validatePhoneNumber from "@/app/actions/validatePhoneNumber";
-import { generateVerificationToken } from "@/app/actions/generateVerificationToken";
 
 export async function POST(request: Request) {
   try {
@@ -25,7 +24,6 @@ export async function POST(request: Request) {
       return new NextResponse('Invalid phone number', { status: 400 })
     }
 
-    const verificationToken = generateVerificationToken(phoneNumber)
 
     const hashedPassword = await bcrypt.hash(password, 12);
 

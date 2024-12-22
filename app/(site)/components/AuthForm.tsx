@@ -11,15 +11,16 @@ import { useRouter } from "next/navigation";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import VerificationCodeInput from "@/app/components/inputs/VerificationCodeInput";
 import useCleanupOnLeave from '@/app/hooks/useCleanupOnLeave';
+import clsx from "clsx"
 
 type Variant = 'LOGIN' | "REGISTER";
 
-interface isOnVerifyPage{
-  isOnVerifyPage : (flag: boolean) => void
-  parentPhoneNumber : (phoneNumber: string) => void
+interface isOnVerifyPage {
+  isOnVerifyPage: (flag: boolean) => void
+  parentPhoneNumber: (phoneNumber: string) => void
 }
 
-export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerifyPage) {
+export default function AuthForm({ isOnVerifyPage, parentPhoneNumber }: isOnVerifyPage) {
   const session = useSession();
   const router = useRouter();
   const [variant, setVariant] = useState<Variant>('LOGIN');
@@ -29,11 +30,39 @@ export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerif
   const [phoneNumber, setPhoneNumber] = useState('09123456789');
   const [password, setPassword] = useState('');
   const [userVerifyInput, setUserVerifyInput] = useState('');
+  const [expires, setExpires] = useState(null);
+  const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
+  const [expired, setExpired] = useState(false)
 
-  useEffect(()=>{
+  useEffect(() => {
     isOnVerifyPage(onVerifyPage)
     parentPhoneNumber(phoneNumber)
   }, [onVerifyPage, phoneNumber])
+
+  useEffect(() => {
+    if (!expires) return;
+
+    const calculateTimeRemaining = () => {
+      const now = new Date().getTime();
+      const expiryTime = new Date(expires).getTime();
+      const difference = expiryTime - now;
+      return difference > 0 ? difference : 0;
+    };
+
+    setTimeRemaining(calculateTimeRemaining());
+
+    const timer = setInterval(() => {
+      const remaining = calculateTimeRemaining();
+      setTimeRemaining(remaining);
+
+      if (remaining <= 0) {
+        clearInterval(timer);
+        setExpired(true)
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [expires]);
 
   const toggleVariant = useCallback(() => {
     if (variant === 'LOGIN') {
@@ -67,10 +96,16 @@ export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerif
   // Add this function to handle sending the SMS
   const handleSendSms = async (phoneNumber: string) => {
     try {
-      await axios.post('/api/send-sms-token', { phoneNumber });
+      setIsLoading(true);
+      setExpired(false)
+      const response = await axios.post('/api/send-sms-token', { phoneNumber });
+      setExpires(response.data.expires);
       toast.success('Verification SMS sent');
     } catch (error) {
-      toast.error('Failed to send SMS');
+      console.error('SMS token request failed:', error);
+      toast.error('Failed to send verification code');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -95,7 +130,7 @@ export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerif
         redirect: false
       })
         .then((callback) => {
-          if(callback?.error && callback.error === 'Account not verified'){
+          if (callback?.error && callback.error === 'Account not verified') {
             toast.error('Your account is not verified');
             setOnVerifyPage(true);
             setPassword(data.password);
@@ -123,7 +158,7 @@ export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerif
       phoneNumber: phoneNumber,
       userInput: userVerifyInput
     })
-    .catch(()=>toast.error('Invalid'))
+      .catch(() => toast.error('Invalid'))
       .then(() => signIn('credentials', {
         phoneNumber: phoneNumber,
         password: password,
@@ -150,6 +185,13 @@ export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerif
     setPhoneNumber('');
     setPassword('');
   }, []);
+
+  const formatTimeRemaining = (ms: number) => {
+    const seconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   return (
     <div className=" mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -197,14 +239,28 @@ export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerif
 
           <div className=" bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10 flex flex-col items-center justify-between gap-6">
             <VerificationCodeInput setInput={setUserVerifyInput} />
-            <Button onClick={handleVerify} disabled={isLoading} >Verify</Button>
+            <Button onClick={handleVerify} disabled={isLoading || expired} >Verify</Button>
+            {
+              timeRemaining !== null && (
+                <div className="text-sm text-gray-500 mt-2 flex items-center gap-2">
+                  <span className={clsx('w-4 h-4 rounded-full animate-pulse', timeRemaining > 0 ? 'bg-green-500' : 'bg-red-600')} />
+                    {
+                      timeRemaining > 0 ? (
+                        <span>Time remaining: {formatTimeRemaining(timeRemaining)}</span>
+                    ) : (
+                        <span>Verification code expired<span className="underline text-sky-600 cursor-pointer" onClick={()=>handleSendSms(phoneNumber)}> Resend Code </span></span>
+                    )
+                    }
+                </div>
+              )
+            }
             <div className="flex flex-col gap-2">
               <p className="text-sm">Wrong Number?
-                <span 
-                    onClick={handleGoBack} 
-                    className="cursor-pointer underline text-sky-800 ps-2"
+                <span
+                  onClick={handleGoBack}
+                  className="cursor-pointer underline text-sky-800 ps-2"
                 >
-                    Go back
+                  Go back
                 </span>
               </p>
             </div>

@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { getVerificationTokenByNumber } from './getVerificationTokenByNumber';
 
-const sendTokenViaSms = async (phoneNumber: string) => {
-  const token = await getVerificationTokenByNumber(phoneNumber);
+const sendTokenViaSms = async (phoneNumber: string, token: string) => {
+  // const token = await getVerificationTokenByNumber(phoneNumber);
 
   const username = process.env.MELIPAYAMAK_USERNAME;
   const password = process.env.MELIPAYAMAK_PASSWORD;
   const bodyId = process.env.MELIPAYAMAK_BODYID;
-  const text = token?.token;
+  const text = token;
   const to = phoneNumber;
 
   if (!token){
@@ -20,6 +20,7 @@ const sendTokenViaSms = async (phoneNumber: string) => {
     await axios.get(url);
   } catch (error) {
     console.error('Error sending SMS:', error);
+    throw error;
   }
 }
 
