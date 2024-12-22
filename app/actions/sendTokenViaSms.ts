@@ -7,7 +7,7 @@ const sendTokenViaSms = async (phoneNumber: string) => {
   const username = process.env.MELIPAYAMAK_USERNAME;
   const password = process.env.MELIPAYAMAK_PASSWORD;
   const bodyId = process.env.MELIPAYAMAK_BODYID;
-  const text = token.token;
+  const text = token?.token;
   const to = phoneNumber;
 
   if (!token){
