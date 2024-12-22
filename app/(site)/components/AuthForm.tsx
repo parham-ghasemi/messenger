@@ -63,6 +63,16 @@ export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerif
     }
   })
 
+  // Add this function to handle sending the SMS
+  const handleSendSms = async (phoneNumber: string) => {
+    try {
+      await axios.post('/api/send-sms-token', { phoneNumber });
+      toast.success('Verification SMS sent');
+    } catch (error) {
+      toast.error('Failed to send SMS');
+    }
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     if (variant === 'REGISTER') {
@@ -70,8 +80,9 @@ export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerif
         .then(() => {
           toast.success('Account created! Verify your phone number.');
           setOnVerifyPage(true);
-          setPassword(data.password)
-          setPhoneNumber(data.phoneNumber)
+          setPassword(data.password);
+          setPhoneNumber(data.phoneNumber);
+          handleSendSms(data.phoneNumber); // Send SMS
         })
         .catch(() => toast.error('Something went wrong'))
         .finally(() => setIsLoading(false));
@@ -87,7 +98,8 @@ export default function AuthForm({isOnVerifyPage, parentPhoneNumber} : isOnVerif
             toast.error('Your account is not verified');
             setOnVerifyPage(true);
             setPassword(data.password);
-            setPhoneNumber(data.phoneNumber)
+            setPhoneNumber(data.phoneNumber);
+            handleSendSms(data.phoneNumber); // Send SMS
           }
 
           else if (callback?.error) {
