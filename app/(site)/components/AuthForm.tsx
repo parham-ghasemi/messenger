@@ -194,7 +194,7 @@ export default function AuthForm({ isOnVerifyPage, parentPhoneNumber }: isOnVeri
   };
 
   return (
-    <div className=" mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div className=" mt-8 sm:mx-auto sm:w-full px-8 md:px-0 sm:max-w-md">
       {
         !onVerifyPage ? (
           <div className=" bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
