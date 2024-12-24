@@ -72,7 +72,26 @@ export async function POST(request:Request) {
           })
         })
 
-        return NextResponse.json(newMessage);
+    // Send notification using Pusher Beams
+    const beamsAuthUrl = `https://735344b7-970f-457e-a33c-95e1dbd93d7c.pushnotifications.pusher.com/publish_api/v1/instances/735344b7-970f-457e-a33c-95e1dbd93d7c/publishes`;
+    const beamsAuthHeaders = {
+      Authorization: `Bearer 1D4D9F9BB798F2B3CCC8EDD38CD87F042842809313B886F506A08C1BADDA94CF`,
+      'Content-Type': 'application/json',
+    };
+    const beamsAuthBody = {
+      interests: [conversationId],
+      web: {
+        notification: {
+          title: `New message from ${currentUser.name}`,
+          body: message || 'You have a new message',
+          deep_link: `https://https://messenger-delta-fawn.vercel.app/conversations/${conversationId}`,
+        },
+      },
+    };
+
+    await axios.post(beamsAuthUrl, beamsAuthBody, { headers: beamsAuthHeaders });
+
+    return NextResponse.json(newMessage);
 
     }catch(error:any){
         console.error(error, 'ERROR_MESSAGES');
