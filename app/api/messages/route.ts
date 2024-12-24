@@ -2,6 +2,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server"
 import prisma from "@/app/libs/prismadb"
 import { pusherServer } from "@/app/libs/pusher";
+import axios from "axios";
 
 export async function POST(request:Request) {
     try{
@@ -82,7 +83,7 @@ export async function POST(request:Request) {
       interests: [conversationId],
       web: {
         notification: {
-          title: `New message from ${currentUser.name}`,
+          title: `New message from ${currnetUser.name}`,
           body: message || 'You have a new message',
           deep_link: `https://https://messenger-delta-fawn.vercel.app/conversations/${conversationId}`,
         },
