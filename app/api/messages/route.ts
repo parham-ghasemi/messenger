@@ -6,11 +6,11 @@ import axios from "axios";
 
 export async function POST(request:Request) {
     try{
-        const currnetUser = await getCurrentUser();
+        const currentUser = await getCurrentUser();
         const body = await request.json();
         const {message, image, conversationId} = body;
 
-        if(!currnetUser?.id || !currnetUser?.phoneNumber){
+        if(!currentUser?.id || !currentUser?.phoneNumber){
             return new NextResponse('Unauthorized', {status: 401});
         }
 
@@ -25,12 +25,12 @@ export async function POST(request:Request) {
                 },
                 sender:{
                     connect: {
-                        id: currnetUser.id
+                        id: currentUser.id
                     }
                 },
                 seen: {
                     connect: {
-                        id: currnetUser.id
+                        id: currentUser.id
                     }
                 }
             },
@@ -83,14 +83,19 @@ export async function POST(request:Request) {
       interests: [conversationId],
       web: {
         notification: {
-          title: `New message from ${currnetUser.name}`,
+          title: `New message from ${currentUser.name}`,
           body: message || 'You have a new message',
-          deep_link: `https://https://messenger-delta-fawn.vercel.app/conversations/${conversationId}`,
+          deep_link: `https://messenger-delta-fawn.vercel.app/conversations/${conversationId}`,
         },
       },
     };
 
-    await axios.post(beamsAuthUrl, beamsAuthBody, { headers: beamsAuthHeaders });
+try {
+  const response = await axios.post(beamsAuthUrl, beamsAuthBody, { headers: beamsAuthHeaders });
+  console.log('Notification sent:', response.data);
+} catch (error:any) {
+  console.error('Error sending notification:', error.response?.data || error.message);
+}
 
     return NextResponse.json(newMessage);
 
