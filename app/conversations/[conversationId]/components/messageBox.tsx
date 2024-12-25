@@ -27,7 +27,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast, setPoints, setMen
   const isOwn = session?.data?.user?.phoneNumber === data?.sender?.phoneNumber;
   const seenList = (data.seen || []).filter((user) => user.phoneNumber !== data?.sender?.phoneNumber).map((user) => user.name).join(', ');
 
-  const container = clsx('flex gap-3 p-4', isOwn && 'justify-end');
+  const container = clsx('flex gap-3 p-4 select-none', isOwn && 'justify-end');
 
   const avatar = clsx(isOwn && 'order-2')
 
