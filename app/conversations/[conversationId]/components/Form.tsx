@@ -23,6 +23,7 @@ const Form = () => {
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setValue('message', '', { shouldValidate: true })
         axios.post('/api/messages', {...data, conversationId})
+        .then((res)=> axios.post('/api/notify', {message: data.message, conversationId, sender: res.data.sender}))
     }
 
     const handleUpload = (result : any) => {
