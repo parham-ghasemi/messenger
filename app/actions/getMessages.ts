@@ -9,7 +9,8 @@ const getMessages = async (conversationId : string) => {
             },
             include: {
                 sender: true,
-                seen: true
+                seen: true,
+                replyTo: true
             },
             orderBy: {
                 createdAt: 'asc'

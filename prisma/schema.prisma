@@ -62,6 +62,12 @@ model Message {
 
   senderId String @db.ObjectId
   sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  replyToId String? @db.ObjectId
+  replyTo   Message? @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  replies Message[] @relation("ReplyTo")
+  // Message Message[]
 }
 
 model VerificationToken {

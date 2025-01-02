@@ -10,6 +10,7 @@ import { find } from "lodash"
 import ContextMenu from "./ContextMenu"
 import toast from "react-hot-toast"
 import UnAvalableModal from "@/app/components/UnAvalableModal"
+import Form from "./Form";
 
 interface BodyProps {
   initialMessages: FullMesseageType[]
@@ -24,6 +25,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
   const [isOwn, setIsOwn] = useState(false);
   const [text, setText] = useState<string | null>(null);
   const [unAvalabelOpen, setUnAvalableOpen] = useState(false)
+  const [replyToId, setReplyToId] = useState<string | null>(null);
 
   const { conversationId } = useConversation();
 
@@ -81,22 +83,24 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
     toast.success('Copied')
   }
 
+
   return (
     <>
       <UnAvalableModal isOpen={unAvalabelOpen} onClose={() => setUnAvalableOpen(false)} />
       {
         menuOpen && (
-          <ContextMenu onDelete={() => setUnAvalableOpen(true)} handleCopy={() => handleCopy(text)} top={points.y} left={points.x} isown={isOwn} />
+          <ContextMenu onDelete={() => setUnAvalableOpen(true)} handleCopy={() => handleCopy(text)} top={points.y} left={points.x} isown={isOwn} onReply={() => setReplyToId(replyToId)} />
         )
       }
       <div className="flex-1 overflow-y-auto">
         {
           messages.map((message, i) => (
-            <MessageBox setText={setText} setIsown={setIsOwn} setMenuOpen={setMenuOpen} setPoints={setPoints} isLast={i === messages.length - 1} key={message.id} data={message} />
+            <MessageBox setText={setText} setIsown={setIsOwn} setMenuOpen={setMenuOpen} setPoints={setPoints} setReplyTo={setReplyToId} isLast={i === messages.length - 1} key={message.id} data={message} />
           ))
         }
         <div ref={bottomRef} className="pt-24" />
       </div>
+      <Form replyToId={replyToId} setReplyToId={setReplyToId} />
     </>
   )
 }

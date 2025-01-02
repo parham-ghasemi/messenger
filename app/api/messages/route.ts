@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
     const body = await request.json();
-    const { message, image, conversationId } = body;
+    const { message, image, conversationId, replyToId } = body;
 
     if (!currentUser?.id || !currentUser?.phoneNumber) {
       return new NextResponse('Unauthorized', { status: 401 });
@@ -34,40 +34,18 @@ export async function POST(request: Request) {
             id: currentUser.id,
           },
         },
+        replyTo: replyToId ? { connect: { id: replyToId } } : undefined,
       },
       include: {
         seen: true,
         sender: true,
-      },
-    });
-
-    const updatedConversation = await prisma.conversation.update({
-      where: {
-        id: conversationId,
-      },
-      data: {
-        lastMessageAt: new Date(),
-        messages: {
-          connect: {
-            id: newMessage.id,
-          },
-        },
-      },
-      include: {
-        users: true,
-        messages: {
-          include: {
-            seen: true,
-          },
-        },
+        replyTo: true,
       },
     });
 
     await pusherServer.trigger(conversationId, 'messages:new', newMessage);
 
-    const lastMessage = updatedConversation.messages[updatedConversation.messages.length - 1];
-
-
+    // console.log("NEW_MESSAGE: "+newMessage.replyTo)
 
     return NextResponse.json(newMessage);
   } catch (error: any) {
