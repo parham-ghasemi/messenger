@@ -8,8 +8,6 @@ import { useSession } from "next-auth/react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import ImageModal from "./ImageModal"
-import getMessageById from "@/app/actions/getMessageById"
-import ContextMenu from "./ContextMenu"
 
 interface MessageBoxProps {
   data: FullMesseageType;
@@ -18,7 +16,7 @@ interface MessageBoxProps {
   setMenuOpen: (x: boolean) => void;
   setIsown: (x: boolean) => void;
   setText: (text: string | null) => void;
-  setReplyTo: (id: string | null) => void;
+  setReplyTo: (data: FullMesseageType | null) => void;
 }
 
 const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast, setPoints, setMenuOpen, setIsown, setText, setReplyTo }) => {
@@ -46,42 +44,6 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast, setPoints, setMen
 
   const reply = clsx("text-xs w-fit overflow-hidden rounded-full py-2 px-3", isOwn ? 'bg-sky-400 text-white' : 'bg-neutral-200');
 
-
-  // useEffect(() => {
-  //   const fetchMessage = async () => {
-  //     try {
-  //       let fetchedMessageText;
-  //       if (data.replyToId) {
-  //         const fetchedMessage = await getMessageById(data.replyToId);
-  //         fetchedMessageText = fetchedMessage?.body;
-  //       }
-  //       setReplyText(fetchedMessageText ? fetchedMessageText : null);
-  //     } catch (error) {
-  //       console.error("Failed to fetch message:", error);
-  //     }
-  //   };
-
-  //   fetchMessage();
-  // }, [data.replyToId]);
-
-  // useEffect(()=> {
-  //   const fetchMessage = async () => {
-  //     try{
-  //       console.log('TRYING');
-  //       let fetchedMessageText;
-  //       if(data.replyToId){
-  //         console.log(data.sender.name + ': ' + data.replyToId)
-  //         const fetchedMessage = await getMessageById(data.replyToId)
-  //       }
-  //     } catch (error:any) {
-  //       console.error('errorFetchingMessage: ', error)
-  //     }
-  //   }
-
-  //   fetchMessage();
-  // }, [data.replyToId])
-
-
   return (
     <>
       <div
@@ -97,7 +59,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast, setPoints, setMen
             setMenuOpen(true);
             setIsown(isOwn);
             setText(data.body)
-            setReplyTo(data.id)
+            setReplyTo(data)
             setPoints({
               x: e.pageX,
               y: e.pageY

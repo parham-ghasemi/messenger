@@ -12,7 +12,7 @@ interface ContextMenuProps {
 
 function ContextMenu({ left, top, isown, handleCopy, onDelete, onReply }: ContextMenuProps) {
   return (
-    <div className="rounded-md overflow-hidden text-sm text-neutral-900 fixed" style={{ top: top, left: left }}>
+    <div className="rounded-md overflow-hidden text-sm text-neutral-900 fixed z-50" style={{ top: top, left: left }}>
       <ul className="w-full h-full flex flex-col justify-between">
         {isown
           ? ownItems.map((item, index) => (

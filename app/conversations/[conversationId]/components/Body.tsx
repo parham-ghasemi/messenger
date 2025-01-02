@@ -26,8 +26,14 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
   const [text, setText] = useState<string | null>(null);
   const [unAvalabelOpen, setUnAvalableOpen] = useState(false)
   const [replyToId, setReplyToId] = useState<string | null>(null);
+  const [reply, setReply] = useState<FullMesseageType | null>(null);
+  const [formReplyVisible, setFormReplyVisible] = useState(false);
 
   const { conversationId } = useConversation();
+
+  useEffect(() => {
+    setReplyToId(reply ? reply.id : null)
+  }, [reply])
 
   useEffect(() => {
     const handleClick = () => setMenuOpen(false);
@@ -83,24 +89,29 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
     toast.success('Copied')
   }
 
+  const handleReply = (replyToId: string | null) => {
+    setReplyToId(replyToId);
+    setFormReplyVisible(true);
+  }
+
 
   return (
     <>
       <UnAvalableModal isOpen={unAvalabelOpen} onClose={() => setUnAvalableOpen(false)} />
       {
         menuOpen && (
-          <ContextMenu onDelete={() => setUnAvalableOpen(true)} handleCopy={() => handleCopy(text)} top={points.y} left={points.x} isown={isOwn} onReply={() => setReplyToId(replyToId)} />
+          <ContextMenu onDelete={() => setUnAvalableOpen(true)} handleCopy={() => handleCopy(text)} top={points.y} left={points.x} isown={isOwn} onReply={() => handleReply(replyToId)} />
         )
       }
       <div className="flex-1 overflow-y-auto">
         {
           messages.map((message, i) => (
-            <MessageBox setText={setText} setIsown={setIsOwn} setMenuOpen={setMenuOpen} setPoints={setPoints} setReplyTo={setReplyToId} isLast={i === messages.length - 1} key={message.id} data={message} />
+            <MessageBox setText={setText} setIsown={setIsOwn} setMenuOpen={setMenuOpen} setPoints={setPoints} setReplyTo={setReply} isLast={i === messages.length - 1} key={message.id} data={message} />
           ))
         }
         <div ref={bottomRef} className="pt-24" />
       </div>
-      <Form replyToId={replyToId} setReplyToId={setReplyToId} />
+      <Form setReplyVisible={setFormReplyVisible} replyVisible={formReplyVisible} replyToId={replyToId} setReplyToId={setReplyToId} replyTo={reply}/>
     </>
   )
 }
