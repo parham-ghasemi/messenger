@@ -1,4 +1,3 @@
-// Disabled Change Avatar
 'use client';
 
 import axios from 'axios';
@@ -6,14 +5,16 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { User } from '@prisma/client';
-// import { CldUploadButton } from 'next-cloudinary';
-
+import { CldUploadButton } from 'next-cloudinary';
+import clsx from "clsx"
 import Input from "../inputs/Input";
 import Modal from '../Modal'
 import Button from '../Button';
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
-import UnAvalableModal from '../UnAvalableModal';
+import Link from 'next/link';
+import { HiArrowLeftOnRectangle } from 'react-icons/hi2';
+import { signOut } from 'next-auth/react';
 
 interface SettingsModalProps {
   isOpen?: boolean;
@@ -28,7 +29,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [unAvalableOpen, setUnAvalableOpen] = useState(false);
 
   const {
     register,
@@ -67,7 +67,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
   return (
     <>
-      <UnAvalableModal isOpen={unAvalableOpen} onClose={() => setUnAvalableOpen(false)} />
       <Modal isOpen={isOpen} onClose={onClose}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-12">
@@ -95,6 +94,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                   required
                   register={register}
                 />
+
                 <div>
                   <label
                     htmlFor="photo"
@@ -116,7 +116,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                       src={image || currentUser?.image || '/images/placeholder-avatar.jpg'}
                       alt="Avatar"
                     />
-                    {/* <CldUploadButton
+                    <CldUploadButton
                       options={{ maxFiles: 1 }}
                       onUpload={handleUpload}
                       uploadPreset="messenger"
@@ -128,11 +128,15 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                       >
                         Change
                       </Button>
-                    </CldUploadButton> */}
-                    <Button type='button' secondary onClick={() => setUnAvalableOpen(true)}>
-                      Change
-                    </Button>
+                    </CldUploadButton>
                   </div>
+                </div>
+
+                <div className="">
+                  <p>Logout</p>
+                  <Link href='#' className={clsx("group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold text-gray-500 hover:text-black hover:bg-gray-100")}>
+                    <HiArrowLeftOnRectangle className='h-6 w-6 shrink-0 text-red-600' onClick={() => signOut()} />
+                  </Link>
                 </div>
               </div>
             </div>

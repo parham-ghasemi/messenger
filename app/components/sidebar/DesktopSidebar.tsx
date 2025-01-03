@@ -8,7 +8,7 @@ import Avatar from "../Avatar";
 import SettingsModal from "./SettingsModal";
 
 interface DesktopSidebarProps {
-    currentUser: User;
+  currentUser: User;
 }
 
 const DesktopSidebar:React.FC<DesktopSidebarProps> = ({currentUser})=>{
@@ -30,7 +30,7 @@ const DesktopSidebar:React.FC<DesktopSidebarProps> = ({currentUser})=>{
                                 label={item.label}
                                 icon={item.icon}
                                 active={item.active}
-                                onClick={item.onClick}
+                                // onClick={item.onClick}
                             />
                         ))
                     }
