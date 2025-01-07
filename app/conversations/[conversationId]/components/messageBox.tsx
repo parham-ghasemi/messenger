@@ -40,9 +40,9 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast, setPoints, setMen
 
   const body = clsx('flex flex-col gap-2 cursor-pointer', isOwn && 'items-end');
 
-  const message = clsx('text-sm w-fit overflow-hidden', isOwn ? 'bg-sky-500 text-white' : 'bg-neutral-200', data.image ? 'rounded-md p-0' : 'rounded-full py-2 px-3');
+  const message = clsx('text-sm w-fit overflow-hidden', isOwn ? 'bg-teal-500 text-white' : 'bg-neutral-200', data.image ? 'rounded-md p-0' : 'rounded-full py-2 px-3');
 
-  const reply = clsx("text-xs w-fit overflow-hidden rounded-full py-2 px-3", isOwn ? 'bg-sky-400 text-white' : 'bg-neutral-200 opacity-85');
+  const reply = clsx("text-xs w-fit overflow-hidden rounded-full py-2 px-3", isOwn ? 'bg-teal-400 text-white' : 'bg-neutral-200 opacity-85');
 
   return (
     <>

@@ -46,11 +46,11 @@ const Form: React.FC<FormProps> = ({ replyToId, setReplyToId, replyTo, replyVisi
     <>
       <UnAvalableModal isOpen={unAvalableOpen} onClose={() => setUnAvalableOpen(false)} />
       <div className=" py-4 px-4 bg-white border-t flex items-center gap-2 lg:gap-4 w-full">
-        <HiPhoto size={30} className="text-sky-500 cursor-pointer" onClick={() => setUnAvalableOpen(true)} />
+        <HiPhoto size={30} className="text-teal-500 cursor-pointer" onClick={() => setUnAvalableOpen(true)} />
         <div className="w-full flex flex-col">
           {
             replyVisible && replyTo && (
-              <div onClick={handleCancelReply} className="cursor-pointer text-xs ms-3 pb-1 flex items-center text-sky-900 gap-1">
+              <div onClick={handleCancelReply} className="cursor-pointer text-xs ms-3 pb-1 flex items-center text-teal-600 gap-1">
                 <TiArrowBack />
                 {replyTo?.body}
               </div>
@@ -58,7 +58,7 @@ const Form: React.FC<FormProps> = ({ replyToId, setReplyToId, replyTo, replyVisi
           }
           <form action="" onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2 lg:gap-4 w-full">
             <MessageInput id="message" register={register} errors={errors} required placeholder="write a message..." />
-            <button type="submit" className="rounded-full p-2 cursor-pointer hover:bg-sky-600 bg-sky-500 transition">
+            <button type="submit" className="rounded-full p-2 cursor-pointer hover:bg-teal-600 bg-teal-500 transition">
               <HiPaperAirplane size={18} className="text-white" />
             </button>
           </form>

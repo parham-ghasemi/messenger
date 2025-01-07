@@ -70,7 +70,7 @@ const ProfileDrawer:React.FC<ProfileDrawerProps> = ({isOpen, onClose, data}) => 
                                         <div className="px-4 sm:px-6">
                                             <div className="flex items-start justify-end">
                                                 <div className="ml-3 flex h-7 items-center">
-                                                    <button type="button" onClick={onClose} className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
+                                                    <button type="button" onClick={onClose} className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
                                                         <span className="sr-only">Close panel</span>
                                                         <IoClose size={24} />
                                                     </button>

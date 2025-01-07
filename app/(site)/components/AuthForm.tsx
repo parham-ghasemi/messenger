@@ -248,7 +248,7 @@ export default function AuthForm({ isOnVerifyPage, parentPhoneNumber }: isOnVeri
                       timeRemaining > 0 ? (
                         <span>Time remaining: {formatTimeRemaining(timeRemaining)}</span>
                     ) : (
-                        <span>Verification code expired<span className="underline text-sky-600 cursor-pointer" onClick={()=>handleSendSms(phoneNumber)}> Resend Code </span></span>
+                        <span>Verification code expired<span className="underline text-teal-600 cursor-pointer" onClick={()=>handleSendSms(phoneNumber)}> Resend Code </span></span>
                     )
                     }
                 </div>
@@ -258,7 +258,7 @@ export default function AuthForm({ isOnVerifyPage, parentPhoneNumber }: isOnVeri
               <p className="text-sm">Wrong Number?
                 <span
                   onClick={handleGoBack}
-                  className="cursor-pointer underline text-sky-800 ps-2"
+                  className="cursor-pointer underline text-teal-800 ps-2"
                 >
                   Go back
                 </span>

@@ -33,7 +33,7 @@ const UnAvalableModal:React.FC<UnAvalableModalProps> = ({isOpen, onClose}) => {
           "
         >
           <FiInfo 
-            className="h-6 w-6 text-sky-700" 
+            className="h-6 w-6 text-teal-700" 
             aria-hidden="true"
           />
         </div>
