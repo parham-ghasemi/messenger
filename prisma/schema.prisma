@@ -30,6 +30,11 @@ model User {
   seenMessageIds String[]  @db.ObjectId
   seenMessages   Message[] @relation("Seen", fields: [seenMessageIds], references: [id])
 
+  ownedChannels  Channel[] @relation("ChannelOwner")
+  
+  joinedChannelIds String[] @db.ObjectId
+  joinedChannels   Channel[] @relation("ChannelMembers", fields: [joinedChannelIds], references: [id])
+
   messeges Message[]
 }
 
@@ -45,6 +50,22 @@ model Conversation {
 
   userIds String[] @db.ObjectId
   users   User[]   @relation(fields: [userIds], references: [id])
+}
+
+model Channel {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  ownerId String @db.ObjectId
+  owner   User   @relation("ChannelOwner", fields: [ownerId], references: [id])
+
+  memberIds String[] @db.ObjectId
+  members   User[]   @relation("ChannelMembers", fields: [memberIds], references: [id])
+
+  messages Message[]
 }
 
 model Message {
@@ -63,11 +84,13 @@ model Message {
   senderId String @db.ObjectId
   sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
 
-  replyToId String? @db.ObjectId
+  replyToId String?  @db.ObjectId
   replyTo   Message? @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  replies Message[] @relation("ReplyTo")
+  replies   Message[] @relation("ReplyTo")
   // Message Message[]
+  Channel   Channel?  @relation(fields: [channelId], references: [id])
+  channelId String?   @db.ObjectId
 }
 
 model VerificationToken {
