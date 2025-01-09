@@ -1,7 +1,7 @@
 
 import prisma from '@/app/libs/prismadb'
 
-const getMessages = async (conversationId : string) => {
+export async function getConversationMessages(conversationId:string) {
     try{
         const messages = await prisma.message.findMany({
             where: {
@@ -23,4 +23,24 @@ const getMessages = async (conversationId : string) => {
     }
 }
 
-export default getMessages
+export async function getChannelMessages(channelId:string) {
+    try{
+        const messages = await prisma.message.findMany({
+            where: {
+                channelId: channelId
+            },
+            include: {
+                sender: true,
+                seen: true,
+                replyTo: true
+            },
+            orderBy: {
+                createdAt: 'asc'
+            }
+        })
+
+        return messages
+    }catch(error:any){
+        return []
+    }
+}

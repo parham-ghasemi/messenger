@@ -3,14 +3,14 @@
 import useConversation from "@/app/hooks/useConversation"
 import { FullMesseageType } from "@/app/types"
 import { useEffect, useRef, useState } from "react"
-import MessageBox from "./messageBox"
+import MessageBox from "../../../components/messageBox"
 import axios from "axios"
 import { pusherClient } from "@/app/libs/pusher"
 import { find } from "lodash"
 import ContextMenu from "./ContextMenu"
 import toast from "react-hot-toast"
 import UnAvalableModal from "@/app/components/UnAvalableModal"
-import Form from "./Form";
+import Form from "@/app/components/Form";
 
 interface BodyProps {
   initialMessages: FullMesseageType[]

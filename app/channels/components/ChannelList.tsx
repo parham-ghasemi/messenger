@@ -37,6 +37,8 @@ const ChannelList: React.FC<ChannelListProps> = ({ initialItems, users }) => {
       return;
     }
 
+    // Subscribe to both user channel and general channels
+    pusherClient.subscribe('channels');
     pusherClient.subscribe(pusherKey);
 
     const newHandler = (channel: FullChannelType) => {
@@ -73,6 +75,7 @@ const ChannelList: React.FC<ChannelListProps> = ({ initialItems, users }) => {
 
     return () => {
       pusherClient.unsubscribe(pusherKey);
+      pusherClient.unsubscribe('channels');
       pusherClient.unbind('channel:new', newHandler);
       pusherClient.unbind('channel:update', updateHandler);
       pusherClient.unbind('channel:remove', removeHandler);
