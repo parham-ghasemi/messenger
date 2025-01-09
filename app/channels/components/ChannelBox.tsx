@@ -75,7 +75,7 @@ const ChannelBox: React.FC<ChannelBoxProps> = ({ data, selected }) => {
           <div className="focus:outline-none">
             <div className="flex justify-between items-center mb-1">
               <p className="text-md font-medium text-gray-900">
-                #{data.name}
+                {data.name}
               </p>
               {lastMessage?.createdAt && (
                 <p className="text-xs text-gray-600 font-light">
