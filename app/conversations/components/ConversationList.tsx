@@ -25,7 +25,7 @@ const ConversationList: React.FC<ConversationListProps> = ({initialItems, users}
 
     const router = useRouter();
 
-    const { conversationId, isOpen } = useConversation();
+    const { conversationId, isConversationOpen } = useConversation();
 
     const pusherkey = useMemo(() => {
       return session.data?.user?.phoneNumber;
@@ -84,7 +84,7 @@ const ConversationList: React.FC<ConversationListProps> = ({initialItems, users}
       <>
         <GroupChatModal users={users} isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)} />
 
-        <aside className={clsx('fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-r border-gray-200 overflow-x-hidden', isOpen ? 'hidden' : "block w-full left-0")}>
+        <aside className={clsx('fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-r border-gray-200 overflow-x-hidden', isConversationOpen ? 'hidden' : "block w-full left-0")}>
             <div className="">
                 <div className="flex justify-between py-4 bg-emerald-50 border-b border-neutral-400 px-5 items-center">
                     <div className="text-2xl font-bold text-neutral-800">
