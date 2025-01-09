@@ -12,12 +12,12 @@ const useChannel = () =>{
         return params.channelId as string;
     }, [params?.channelId])
 
-    const isOpen = useMemo(()=> !!channelId, [channelId]);
+    const isChannelOpen = useMemo(()=> !!channelId, [channelId]);
 
 
     return useMemo(()=>({
-        isOpen, channelId
-    }), [isOpen, channelId]);
+        isChannelOpen, channelId
+    }), [isChannelOpen, channelId]);
 }
 
 export default useChannel;

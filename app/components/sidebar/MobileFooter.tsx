@@ -7,6 +7,7 @@ import { useState } from "react";
 import Avatar from "../Avatar";
 import { User } from "@prisma/client";
 import SettingsModal from "./SettingsModal";
+import useChannel from "@/app/hooks/useChannel";
 
 interface MobileFooterProps {
   currentUser: User;
@@ -16,9 +17,10 @@ const MobileFooter: React.FC<MobileFooterProps> = ({ currentUser }) => {
 
   const routes = useRoutes();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const { isOpen } = useConversation();
+  const { isConversationOpen } = useConversation();
+  const { isChannelOpen } = useChannel();
 
-  if (isOpen) {
+  if (isConversationOpen || isChannelOpen) {
     return null;
   }
 

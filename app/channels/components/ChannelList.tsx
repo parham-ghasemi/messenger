@@ -26,7 +26,7 @@ const ChannelList: React.FC<ChannelListProps> = ({ initialItems, users }) => {
 
   const router = useRouter();
 
-  const { channelId, isOpen } = useChannel();
+  const { channelId, isChannelOpen : isChannelOpen } = useChannel();
 
   const pusherKey = useMemo(() => {
     return session.data?.user?.phoneNumber;
@@ -92,7 +92,7 @@ const ChannelList: React.FC<ChannelListProps> = ({ initialItems, users }) => {
 
       <aside className={clsx(
         'fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-r border-gray-200',
-        isOpen ? 'hidden' : 'block w-full left-0'
+        isChannelOpen ? 'hidden' : 'block w-full left-0'
       )}>
         <div className="">
           <div className="flex justify-between py-4 bg-emerald-50 border-b border-neutral-400 px-5 items-center">
