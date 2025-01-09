@@ -95,7 +95,7 @@ const ChannelList: React.FC<ChannelListProps> = ({ initialItems, users }) => {
         isOpen ? 'hidden' : 'block w-full left-0'
       )}>
         <div className="">
-          <div className="flex justify-between py-4 bg-emerald-100 border-b border-neutral-400 px-5 items-center">
+          <div className="flex justify-between py-4 bg-emerald-50 border-b border-neutral-400 px-5 items-center">
             <div className="text-2xl font-bold text-neutral-800">
               Channels
             </div>

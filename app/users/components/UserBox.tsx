@@ -38,7 +38,7 @@ const UserBox: React.FC<UserBoxProps> = ({
       }
       <div
         onClick={handleClick}
-        className="w-full realtive flex items-center space-x-3 bg-white p-3 hover:bg-emerald-100 hover:rounded transition cursor-pointer"
+        className="w-full realtive flex items-center space-x-3 bg-white p-3 hover:bg-emerald-50 hover:rounded transition cursor-pointer"
       >
         <Avatar user={data} />
         <div className=" min-w-0 flex-1">
