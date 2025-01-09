@@ -5,10 +5,12 @@ import { HiChat, HiOutlineHashtag } from "react-icons/hi";
 import { HiUsers } from "react-icons/hi2";
 import { signOut } from "next-auth/react";
 import useConversation from "./useConversation";
+import useChannel from "./useChannel";
 
 const useRoutes = () =>{
     const pathname = usePathname();
     const { conversationId } = useConversation();
+    const { channelId } = useChannel();
 
     const routes = useMemo(()=>[
         {
@@ -27,7 +29,7 @@ const useRoutes = () =>{
             label: 'Channel',
             href: '/channels',
             icon: HiOutlineHashtag,
-            active: pathname === '/users'
+            active: pathname === '/channels' || !!channelId,
         },
     ], [pathname, conversationId])
 
