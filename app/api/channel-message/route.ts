@@ -41,11 +41,19 @@ export async function POST(request: Request) {
       },
     });
 
-    await pusherServer.trigger(channelId, 'channel:new', newMessage);
+    // Update channel name format
+    const channelName = `channel_${channelId}`;
+    
+    try {
+      await pusherServer.trigger(channelName, 'messages:new', newMessage);
+    } catch (pusherError) {
+      console.error('Pusher Error:', pusherError);
+      // Continue execution - don't fail the whole request if push notification fails
+    }
 
     return NextResponse.json(newMessage);
   } catch (error: any) {
-    console.error(error, 'ERROR_CHANNEL_MESSAGES');
-    return new NextResponse('InternalError', { status: 500 });
+    console.error('ERROR_MESSAGES', error);
+    return new NextResponse('Internal Error', { status: 500 });
   }
 }

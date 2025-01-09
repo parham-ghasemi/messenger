@@ -26,14 +26,13 @@ const Body: React.FC<BodyProps> = ({ initialMessages, channel, currentUser }) =>
   const isOwner = currentUser?.id === channel.ownerId;
 
   useEffect(() => {
-    // Subscribe to the specific channel
-    
-    const channelName = `chat:${channel.id}`;
+    // Change channel name format
+    const channelName = `channel_${channel.id}`;
     pusherClient.subscribe(channelName);
     bottomRef?.current?.scrollIntoView();
 
     const messageHandler = (message: FullMesseageType) => {
-      
+      // axios.post(`/api/channels/${channel.id}/seen`);
       setMessages((current) => {
         if (find(current, { id: message.id })) {
           return current;
