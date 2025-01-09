@@ -9,7 +9,7 @@ interface UserListProps {
 
 const UserList: React.FC<UserListProps> = ({ items }) => {
   return (
-    <aside className="fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-r border-gray-200 block w-full left-0">
+    <aside className="fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-r border-gray-200 block w-full left-0 overflow-x-hidden">
       <div className=" px-5 text-2xl font-bold text-neutral-800 py-4 bg-emerald-50 border-b border-neutral-400">
         Users
       </div>
