@@ -1,7 +1,7 @@
 'use client';
 
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { User } from '@prisma/client';
@@ -30,6 +30,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+
   const {
     register,
     handleSubmit,
@@ -47,12 +48,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
   const image = watch('image');
 
-  const handleUpload = (result: any) => {
-    setValue('image', result.info.secure_url, {
-      shouldValidate: true
-    });
-  }
-
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
@@ -64,6 +59,33 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
       .catch(() => toast.error('Something went wrong!'))
       .finally(() => setIsLoading(false));
   }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'messenger');
+
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      setValue('image', data.secure_url, { shouldValidate: true });
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      toast.error('Failed to upload image.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   return (
     <>
@@ -116,19 +138,21 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                       src={image || currentUser?.image || '/images/placeholder-avatar.jpg'}
                       alt="Avatar"
                     />
-                    <CldUploadButton
-                      options={{ maxFiles: 1 }}
-                      onUpload={handleUpload}
-                      uploadPreset="messenger"
+
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="file-input"
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById('file-input')?.click()}
+                      className="group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold text-gray-500 hover:text-black hover:bg-gray-100"
                     >
-                      <Button
-                        disabled={isLoading}
-                        secondary
-                        type="button"
-                      >
-                        Change
-                      </Button>
-                    </CldUploadButton>
+                      Change
+                    </button>
                   </div>
                 </div>
 
