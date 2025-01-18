@@ -8,11 +8,12 @@ import { format } from "date-fns"
 import { Fragment, useMemo, useState } from "react"
 import { Dialog, Transition } from '@headlessui/react'
 import { IoClose, IoTrash } from "react-icons/io5"
-import Avatar from "@/app/components/Avatar"
+// import Avatar from "@/app/components/Avatar"
 // import ConfirmModal from "./ConfirmModal"
 import AvatarGroup from "@/app/components/AvatarGroup"
 import useActiveList from "@/app/hooks/useActiveList"
 import UnAvalableModal from "@/app/components/UnAvalableModal"
+import ProfileDrawerAvatar from "./ProfileDrawerAvatar"
 
 interface ProfileDrawerProps {
     isOpen: boolean
@@ -86,7 +87,7 @@ const ProfileDrawer:React.FC<ProfileDrawerProps> = ({isOpen, onClose, data}) => 
                                                       <AvatarGroup users={data.users} />
                                                     ) :
                                                     (
-                                                      <Avatar user={otherUser} />
+                                                      <ProfileDrawerAvatar user={otherUser} />
                                                     )
                                                   }
                                                 </div>
