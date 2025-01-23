@@ -33,7 +33,7 @@ const ChannelId = async ({ params }: { params: IParams }) => {
   return (
     <div className="lg:pl-80 h-full">
       <div className="h-full flex flex-col">
-        <Header channel={channel} />
+        <Header channel={channel} currentUserId={currentUser.id} />
         <Body isMember={channel.memberIds.includes(currentUser.id)} currentUser={currentUser} channel={channel} initialMessages={messages} />
         {/* <Form /> */}
       </div>

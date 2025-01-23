@@ -13,9 +13,10 @@ interface HeaderProps {
     owner: User,
     members: User[]
   }
+  currentUserId: string
 }
 
-const Header: React.FC<HeaderProps> = ({ channel }) => {
+const Header: React.FC<HeaderProps> = ({ channel, currentUserId }) => {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -28,6 +29,7 @@ const Header: React.FC<HeaderProps> = ({ channel }) => {
         data={channel}
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
+        currentUserId={currentUserId}
       />
 
       <div
