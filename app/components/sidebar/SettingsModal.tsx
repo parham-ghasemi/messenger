@@ -156,11 +156,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                   </div>
                 </div>
 
-                <div className="">
+                <div className="flex flex-col gap-2 mt-5">
                   <p>Logout</p>
-                  <Link href='#' className={clsx("group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold text-gray-500 hover:text-black hover:bg-gray-100")}>
-                    <HiArrowLeftOnRectangle className='h-6 w-6 shrink-0 text-red-600' onClick={() => signOut()} />
-                  </Link>
+                  <div className="bg-red-500 px-2 py-1.5 rounded-md cursor-pointer w-fit hover:bg-red-600 hover:text-white text-neutral-200" onClick={() => signOut()}>
+                    <HiArrowLeftOnRectangle size={20} />
+                  </div>
                 </div>
               </div>
             </div>

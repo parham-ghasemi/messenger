@@ -65,11 +65,11 @@ const ChannelDrawer: React.FC<ChannelDrawerProps> = ({
       {loading && <LoadingModal />}
       {
         confirmModalOpen && <ConfirmLeaveModal
-                              isLoading={loading}
-                              isOpen={confirmModalOpen}
-                              onClose={() => setConfirmModalOpen(false)}
-                              onLeave={handleLeave}
-                            />
+          isLoading={loading}
+          isOpen={confirmModalOpen}
+          onClose={() => setConfirmModalOpen(false)}
+          onLeave={handleLeave}
+        />
       }
       <Transition.Root show={isOpen} as={Fragment}>
         <Dialog as="div" className='relative z-50' onClose={onClose}>
@@ -190,14 +190,18 @@ const ChannelDrawer: React.FC<ChannelDrawerProps> = ({
 
                               <hr />
 
-                              <div>
-                                <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
-                                  Leave this channel
-                                </dt>
-                                <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                  <Button type="button" fullWidth onClick={()=> setConfirmModalOpen(true)} disabled={loading} danger>Leave</Button>
-                                </dd>
-                              </div>
+                              {
+                                data.memberIds.includes(currentUserId) && data.ownerId !== currentUserId && (
+                                  <div>
+                                    <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                                      Leave this channel
+                                    </dt>
+                                    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                      <Button type="button" fullWidth onClick={() => setConfirmModalOpen(true)} disabled={loading} danger>Leave</Button>
+                                    </dd>
+                                  </div>
+                                )
+                              }
                             </dl>
                           </div>
                         </div>

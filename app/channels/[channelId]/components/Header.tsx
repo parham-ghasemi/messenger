@@ -42,7 +42,7 @@ const Header: React.FC<HeaderProps> = ({ channel, currentUserId }) => {
             <MdTag size={20} className="text-purple-500" />
           </div>
           <div
-            className="flex flex-col"
+            className="cursor-pointer flex flex-col"
             onClick={() => setDrawerOpen(true)}
           >
             <div>
