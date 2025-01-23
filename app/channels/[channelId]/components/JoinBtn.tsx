@@ -12,7 +12,7 @@ const JoinBtn = ({ channelId, currentUserId }: { channelId: string, currentUserI
 
   const handleJoin = async () => {
     setloading(true)
-    await addMember(channelId,)
+    await addMember(channelId, currentUserId)
       .catch((e: any) => {
         toast.error('Something went wrong')
         setHadError(true)

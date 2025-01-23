@@ -3,7 +3,6 @@
 import { FullMesseageType } from "@/app/types"
 import { useEffect, useRef, useState } from "react"
 import MessageBox from "./MessageBox"
-import axios from "axios"
 import { pusherClient } from "@/app/libs/pusher"
 import { find } from "lodash"
 import Form from "./Form"
