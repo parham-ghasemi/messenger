@@ -5,21 +5,21 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import toast from "react-hot-toast"
 
-const JoinBtn = ({ channelId }: { channelId: string }) => {
+const JoinBtn = ({ channelId, currentUserId }: { channelId: string, currentUserId: string }) => {
   const [loading, setloading] = useState(false)
   const [hadError, setHadError] = useState(false)
   const router = useRouter();
 
   const handleJoin = async () => {
     setloading(true)
-    await addMember(channelId)
+    await addMember(channelId,)
       .catch((e: any) => {
         toast.error('Something went wrong')
         setHadError(true)
       })
       .finally(() => {
         setloading(false)
-        if(!hadError){
+        if (!hadError) {
           router.refresh()
         }
       })

@@ -77,7 +77,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages, channel, currentUser, isMe
         <div ref={bottomRef} className="pt-24" />
       </div>
       {isOwner && <Form channelId={channel.id} />}
-      {!isMember && <JoinBtn channelId={channel.id} />}
+      {!isMember && <JoinBtn channelId={channel.id} currentUserId={currentUser.id} />}
     </>
   )
 }

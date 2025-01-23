@@ -3,7 +3,7 @@
 import prisma from '@/app/libs/prismadb'
 import getCurrentUser from './getCurrentUser'
 
-const addMember = async (channelId: string) => {
+const addMember = async (channelId: string, userId: string) => {
   try {
     const currentUser = await getCurrentUser();
 
@@ -18,7 +18,7 @@ const addMember = async (channelId: string) => {
       data: {
         members: {
           connect: {
-            id: currentUser.id
+            id: userId
           }
         }
       }

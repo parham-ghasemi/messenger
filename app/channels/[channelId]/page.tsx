@@ -5,7 +5,6 @@ import Header from "./components/Header";
 import Body from "./components/Body";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { redirect } from "next/navigation";
-import addMember from "@/app/actions/addMember";
 // import Form from "./components/Form";
 
 interface IParams {
