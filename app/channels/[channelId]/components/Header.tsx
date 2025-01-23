@@ -31,9 +31,7 @@ const Header: React.FC<HeaderProps> = ({ channel }) => {
       />
 
       <div
-        className="bg-white w-full flex border-b-[1px] sm:px-4 py-3 px-4 lg:px-6 justify-between items-center shadow-sm"
-        onClick={() => setDrawerOpen(true)}
-      >
+        className="bg-white w-full flex border-b-[1px] sm:px-4 py-3 px-4 lg:px-6 justify-between items-center shadow-sm">
         <div className="flex gap-3 items-center">
           <Link href='/channels' className="lg:hidden block text-teal-500 hover:text-teal-600 transition cursor-pointer">
             <HiChevronLeft size={32} />
@@ -41,7 +39,10 @@ const Header: React.FC<HeaderProps> = ({ channel }) => {
           <div className="flex items-center justify-center w-10 h-10 bg-purple-200 rounded-lg">
             <MdTag size={20} className="text-purple-500" />
           </div>
-          <div className="flex flex-col">
+          <div
+            className="flex flex-col"
+            onClick={() => setDrawerOpen(true)}
+          >
             <div>
               {channel.name}
             </div>

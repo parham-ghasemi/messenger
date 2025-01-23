@@ -1,12 +1,15 @@
 'use client'
 
 import { Channel, User } from "@prisma/client"
-import { Fragment } from "react"
+import { Fragment, useState } from "react"
 import { Dialog, Transition } from '@headlessui/react'
 import { IoClose } from "react-icons/io5"
 import { format } from "date-fns"
 import Avatar from "@/app/components/Avatar"
 import { MdTag } from "react-icons/md"
+import Link from "next/link"
+import { FaRegCopy } from "react-icons/fa6"
+import { TiTick } from "react-icons/ti"
 
 interface ChannelDrawerProps {
   isOpen: boolean
@@ -22,6 +25,14 @@ const ChannelDrawer: React.FC<ChannelDrawerProps> = ({
   onClose,
   data
 }) => {
+  const [copied, setCopied] = useState<boolean>(false)
+
+  const handleCopy = async (text: string) => {
+    navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1000);
+  }
+
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as="div" className='relative z-50' onClose={onClose}>
@@ -79,6 +90,17 @@ const ChannelDrawer: React.FC<ChannelDrawerProps> = ({
                             {data.description}
                           </div>
                         )}
+
+                        <div className="text-sm text-gray-500 flex gap-2 just">
+                          <Link onClick={() => handleCopy(`messenger-delta-fawn.vercel.app/channels/${data.id}`)} href={`/channels/${data.id}`} className="hover:underline">
+                            Channel id: {data.id}
+                          </Link>
+                          <button onClick={() => handleCopy(`messenger-delta-fawn.vercel.app/channels/${data.id}`)}>
+                            {
+                              copied ? <TiTick size={22} color="green" /> : <FaRegCopy size={16} />
+                            }
+                          </button>
+                        </div>
 
                         <div className="w-full mt-8 pb-5 pt-5 sm:px-0 sm:pt-0">
                           <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
