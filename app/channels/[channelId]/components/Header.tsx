@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ channel }) => {
         onClick={() => setDrawerOpen(true)}
       >
         <div className="flex gap-3 items-center">
-          <Link href='/conversations' className="lg:hidden block text-teal-500 hover:text-teal-600 transition cursor-pointer">
+          <Link href='/channels' className="lg:hidden block text-teal-500 hover:text-teal-600 transition cursor-pointer">
             <HiChevronLeft size={32} />
           </Link>
           <div className="flex items-center justify-center w-10 h-10 bg-purple-200 rounded-lg">
