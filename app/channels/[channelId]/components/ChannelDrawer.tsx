@@ -57,7 +57,7 @@ const ChannelDrawer: React.FC<ChannelDrawerProps> = ({
       .finally(() => {
         setLoading(false)
         if (!hadError) {
-          router.push('/channels')
+          window.location.replace('/channels')
         }
       })
   }
