@@ -1,9 +1,11 @@
 import getChannelById from "@/app/actions/getChannelById";
-import {getChannelMessages} from "@/app/actions/getMessages";
+import { getChannelMessages } from "@/app/actions/getMessages";
 import EmptyState from "@/app/components/EmptyState";
 import Header from "./components/Header";
 import Body from "./components/Body";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import { redirect } from "next/navigation";
+import addMember from "@/app/actions/addMember";
 // import Form from "./components/Form";
 
 interface IParams {
@@ -15,6 +17,10 @@ const ChannelId = async ({ params }: { params: IParams }) => {
   const messages = await getChannelMessages(params.channelId);
   const currentUser = await getCurrentUser();
 
+  if (!currentUser) {
+    redirect('/access-denied')
+  }
+
   if (!channel) {
     return (
       <div className="lg:pl-80 h-full">
@@ -23,6 +29,10 @@ const ChannelId = async ({ params }: { params: IParams }) => {
         </div>
       </div>
     )
+  }
+
+  if(!channel.memberIds.includes(currentUser.id)){
+    await addMember(params.channelId)
   }
 
   return (

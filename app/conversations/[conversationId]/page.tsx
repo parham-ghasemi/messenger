@@ -15,10 +15,6 @@ const ConversationId = async ({ params }: { params: IParams }) => {
     const messages = await getConversationMessages(params.conversationId);
     const currentUser = await getCurrentUser();
 
-    if(!currentUser){
-      redirect('/access-denied')
-    }
-
     if(!conversation){
         return(
             <div className="lg:pl-80 h-full">
@@ -29,7 +25,7 @@ const ConversationId = async ({ params }: { params: IParams }) => {
         )
     }
 
-    if(!conversation.userIds.includes(currentUser.id)){
+    if(!currentUser || !conversation.userIds.includes(currentUser.id)){
       redirect('/access-denied')
     }
 
