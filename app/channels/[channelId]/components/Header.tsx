@@ -38,8 +38,8 @@ const Header: React.FC<HeaderProps> = ({ channel, currentUserId }) => {
           <Link href='/channels' className="lg:hidden block text-teal-500 hover:text-teal-600 transition cursor-pointer">
             <HiChevronLeft size={32} />
           </Link>
-          <div className="flex items-center justify-center w-10 h-10 bg-purple-200 rounded-lg">
-            <MdTag size={20} className="text-purple-500" />
+          <div className="flex items-center justify-center w-10 h-10 rounded-lg" style={{backgroundColor: channel.color + '30'}}>
+            <MdTag size={20} style={{color: channel.color}} />
           </div>
           <div
             className="cursor-pointer flex flex-col"

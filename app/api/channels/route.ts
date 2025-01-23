@@ -21,6 +21,13 @@ export async function POST(request: Request) {
       return new NextResponse('Invalid data', { status: 400 });
     }
 
+    const generateRandomColor = () => {
+      const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+      return `#${randomColor}`
+    }
+
+    const color = generateRandomColor();
+
     const newChannel = await prisma.channel.create({
       data: {
         name,
@@ -30,6 +37,7 @@ export async function POST(request: Request) {
             id: currentUser.id
           }
         },
+        color,
         members: {
           connect: [
             ...members.map((member: { value: string }) => ({

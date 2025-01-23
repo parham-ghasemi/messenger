@@ -58,6 +58,8 @@ const ChannelBox: React.FC<ChannelBoxProps> = ({ data, selected }) => {
     return 'Welcome to the channel!';
   }, [lastMessage])
 
+  console.log(data.color)
+
   return (
     <>
       <div
@@ -67,8 +69,8 @@ const ChannelBox: React.FC<ChannelBoxProps> = ({ data, selected }) => {
           selected ? 'bg-purple-100' : 'bg-white'
         )}
       >
-        <div className="flex items-center justify-center w-10 h-10 bg-purple-200 rounded-lg">
-          <MdTag size={20} className="text-purple-500" />
+        <div className="flex items-center justify-center w-10 h-10 rounded-lg" style={{backgroundColor: data.color + '30'}}>
+          <MdTag size={20} style={{color: data.color}} />
         </div>
 
         <div className="min-w-0 flex-1">
