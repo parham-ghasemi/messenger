@@ -5,7 +5,7 @@ import { Fragment, useState } from "react"
 import { Dialog, Transition } from '@headlessui/react'
 import { IoClose } from "react-icons/io5"
 import Avatar from "@/app/components/Avatar"
-import { MdTag } from "react-icons/md"
+import { MdDelete, MdTag } from "react-icons/md"
 import Link from "next/link"
 import { FaRegCopy } from "react-icons/fa6"
 import { TiTick } from "react-icons/ti"
@@ -14,7 +14,7 @@ import toast from "react-hot-toast"
 import removeMember from "@/app/actions/removeMember"
 import LoadingModal from "@/app/components/LoadingModal"
 import Button from "@/app/components/Button"
-import ConfirmLeaveModal from "./ConfirmLeaveModal"
+import ConfirmRemoveModal from "./ConfirmRemoveModal"
 
 interface ChannelDrawerProps {
   isOpen: boolean
@@ -35,7 +35,8 @@ const ChannelDrawer: React.FC<ChannelDrawerProps> = ({
   const [copied, setCopied] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [hadError, setHadError] = useState<boolean>(false)
-  const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false)
+  const [confirmLeaveOpen, setConfirmLeaveOpen] = useState<boolean>(false)
+  const [confirmRemoveOpen, setConfirmRemoveOpen] = useState<string | undefined>()
   const router = useRouter();
 
   const handleCopy = async (text: string) => {
@@ -50,6 +51,7 @@ const ChannelDrawer: React.FC<ChannelDrawerProps> = ({
     await removeMember(data.id, currentUserId)
       .catch((e: any) => {
         toast.error('Something went wrong')
+        console.log(e + ' :ChannelDrawer')
         setHadError(true)
       })
       .finally(() => {
@@ -60,15 +62,46 @@ const ChannelDrawer: React.FC<ChannelDrawerProps> = ({
       })
   }
 
+  const handleRemove = async () => {
+    setLoading(true)
+
+    confirmRemoveOpen ?
+      await removeMember(data.id, confirmRemoveOpen)
+        .catch((e: any) => {
+          toast.error('Something went wrong')
+          console.log(e + ' :ChannelDrawer')
+          setHadError(true)
+        })
+        .finally(() => {
+          setLoading(false)
+          setConfirmRemoveOpen(undefined)
+          if (!hadError) {
+            window.location.reload();
+          }
+        }) : null
+  }
+
   return (
     <>
       {loading && <LoadingModal />}
       {
-        confirmModalOpen && <ConfirmLeaveModal
+        confirmLeaveOpen && <ConfirmRemoveModal
           isLoading={loading}
-          isOpen={confirmModalOpen}
-          onClose={() => setConfirmModalOpen(false)}
+          isOpen={confirmLeaveOpen}
+          onClose={() => setConfirmLeaveOpen(false)}
           onLeave={handleLeave}
+          title="Leave Channel"
+          description="Are you sure you want to Leave this channel?"
+        />
+      }
+      {
+        confirmRemoveOpen && <ConfirmRemoveModal
+          isLoading={loading}
+          isOpen={confirmRemoveOpen !== undefined}
+          onClose={() => setConfirmRemoveOpen(undefined)}
+          onLeave={handleRemove}
+          title="Remove Member"
+          description="Are you sure you want to remove this member?"
         />
       }
       <Transition.Root show={isOpen} as={Fragment}>
@@ -171,17 +204,26 @@ const ChannelDrawer: React.FC<ChannelDrawerProps> = ({
                                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
                                   <div className="flex flex-col gap-4">
                                     {data.members.map((member) => member.id !== data.owner.id && (
-                                      <div key={member.id} className="flex items-center gap-2">
-                                        <Avatar user={member} />
-                                        <div>
-                                          <p className="text-gray-900 flex gap-1 items-center">
-                                            {member.name}
-                                            <span className="text-gray-500 text-xs font-light">
-                                              {member.id === currentUserId && "( You )"}
-                                            </span>
-                                          </p>
-                                          <p className="text-gray-500">{member.phoneNumber}</p>
+                                      <div key={member.id} className="flex items-center justify-between p-2 rounded-md gap-2 hover:bg-slate-200 transition-colors duration-300 cursor-pointer">
+                                        <div className="flex items-center gap-2">
+                                          <Avatar user={member} />
+                                          <div>
+                                            <p className="text-gray-900 flex gap-1 items-center">
+                                              {member.name}
+                                              <span className="text-gray-500 text-xs font-light">
+                                                {member.id === currentUserId && "( You )"}
+                                              </span>
+                                            </p>
+                                            <p className="text-gray-500">{member.phoneNumber}</p>
+                                          </div>
                                         </div>
+                                        {
+                                          currentUserId === data.ownerId && (
+                                            <div onClick={() => setConfirmRemoveOpen(member.id)} className="p-3 hover:bg-red-200 hover:text-red-700 transition-colors duration-300 text-red-600 rounded-lg">
+                                              <MdDelete size={18} className="" />
+                                            </div>
+                                          )
+                                        }
                                       </div>
                                     ))}
                                   </div>
@@ -197,7 +239,7 @@ const ChannelDrawer: React.FC<ChannelDrawerProps> = ({
                                       Leave this channel
                                     </dt>
                                     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                      <Button type="button" fullWidth onClick={() => setConfirmModalOpen(true)} disabled={loading} danger>Leave</Button>
+                                      <Button type="button" fullWidth onClick={() => setConfirmLeaveOpen(true)} disabled={loading} danger>Leave</Button>
                                     </dd>
                                   </div>
                                 )

@@ -13,13 +13,17 @@ interface ConfirmModalProps {
   onClose: () => void;
   onLeave: () => void;
   isLoading: boolean;
+  title: string;
+  description?: string;
 }
 
-const ConfirmLeaveModal: React.FC<ConfirmModalProps> = ({
+const ConfirmRemoveModal: React.FC<ConfirmModalProps> = ({
   isOpen,
   onClose,
   onLeave,
-  isLoading
+  isLoading,
+  title,
+  description
 }) => {
 
   return (
@@ -59,11 +63,13 @@ const ConfirmLeaveModal: React.FC<ConfirmModalProps> = ({
             as="h3"
             className="text-base font-semibold leading-6 text-gray-900"
           >
-            Leave Channel
+            {title}
           </Dialog.Title>
           <div className="mt-2">
             <p className="text-sm text-gray-500">
-              Are you sure you want to Leave this channel?
+              {
+                description && description
+              }
             </p>
           </div>
         </div>
@@ -74,7 +80,7 @@ const ConfirmLeaveModal: React.FC<ConfirmModalProps> = ({
           danger
           onClick={onLeave}
         >
-          Leave
+          Confirm
         </Button>
         <Button
           disabled={isLoading}
@@ -88,4 +94,4 @@ const ConfirmLeaveModal: React.FC<ConfirmModalProps> = ({
   )
 }
 
-export default ConfirmLeaveModal;
+export default ConfirmRemoveModal;

@@ -20,7 +20,7 @@ const JoinBtn = ({ channelId, currentUserId }: { channelId: string, currentUserI
       .finally(() => {
         setloading(false)
         if (!hadError) {
-          router.refresh()
+          window.location.reload();
         }
       })
   }
