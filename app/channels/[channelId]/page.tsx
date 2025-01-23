@@ -31,15 +31,11 @@ const ChannelId = async ({ params }: { params: IParams }) => {
     )
   }
 
-  if(!channel.memberIds.includes(currentUser.id)){
-    await addMember(params.channelId)
-  }
-
   return (
     <div className="lg:pl-80 h-full">
       <div className="h-full flex flex-col">
         <Header channel={channel} />
-        <Body currentUser={currentUser} channel={channel} initialMessages={messages} />
+        <Body isMember={channel.memberIds.includes(currentUser.id)} currentUser={currentUser} channel={channel} initialMessages={messages} />
         {/* <Form /> */}
       </div>
     </div>

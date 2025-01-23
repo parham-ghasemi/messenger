@@ -8,14 +8,16 @@ import { pusherClient } from "@/app/libs/pusher"
 import { find } from "lodash"
 import Form from "./Form"
 import { Channel, User } from "@prisma/client"
+import JoinBtn from "./JoinBtn"
 
 interface BodyProps {
   initialMessages: FullMesseageType[]
   channel: Channel
   currentUser: User | null
+  isMember: boolean
 }
 
-const Body: React.FC<BodyProps> = ({ initialMessages, channel, currentUser }) => {
+const Body: React.FC<BodyProps> = ({ initialMessages, channel, currentUser, isMember }) => {
   const [messages, setMessages] = useState(initialMessages);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -75,6 +77,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages, channel, currentUser }) =>
         <div ref={bottomRef} className="pt-24" />
       </div>
       {isOwner && <Form channelId={channel.id} />}
+      {!isMember && <JoinBtn channelId={channel.id} />}
     </>
   )
 }
