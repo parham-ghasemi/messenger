@@ -116,10 +116,10 @@ const ProfileDrawer:React.FC<ProfileDrawerProps> = ({isOpen, onClose, data}) => 
                                                           <dd className="mt-1 text-sm  sm:col-span-2">
                                                             {
                                                               data.users.map((user) =>(
-                                                                <>
+                                                                <div className="mt-3">
                                                                   <p className="text-gray-900">{user.name}</p>
                                                                   <p className="text-gray-600">{user.phoneNumber}</p>
-                                                                </>
+                                                                </div>
                                                               ))
                                                             }
                                                           </dd>
