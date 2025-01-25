@@ -12,6 +12,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import VerificationCodeInput from "@/app/components/inputs/VerificationCodeInput";
 import useCleanupOnLeave from '@/app/hooks/useCleanupOnLeave';
 import clsx from "clsx"
+import Link from "next/link";
 
 type Variant = 'LOGIN' | "REGISTER";
 
@@ -203,13 +204,16 @@ export default function AuthForm({ isOnVerifyPage, parentPhoneNumber }: isOnVeri
                 <Input disabled={isLoading} label="Name" register={register} id="name" errors={errors} />
               )}
               <Input disabled={isLoading} label="Phone number" type="tel" register={register} id="phoneNumber" errors={errors} />
-              <div className="relative">
-                <Input disabled={isLoading} label={'Password'} type={passwordVisible ? 'text' : 'password'} register={register} id="password" errors={errors} />
-                <div className="absolute right-3 bottom-2.5 cursor-pointer" onClick={() => setPasswordVisible(!passwordVisible)}>
-                  {
-                    !passwordVisible ? <FaRegEye /> : <FaRegEyeSlash />
-                  }
+              <div className="">
+                <div className="relative">
+                  <Input disabled={isLoading} label={'Password'} type={passwordVisible ? 'text' : 'password'} register={register} id="password" errors={errors} />
+                  <div className="absolute right-3 bottom-2.5 cursor-pointer" onClick={() => setPasswordVisible(!passwordVisible)}>
+                    {
+                      !passwordVisible ? <FaRegEye /> : <FaRegEyeSlash />
+                    }
+                  </div>
                 </div>
+                <Link href='/reset-password'  className="text-xs underline text-gray-700 cursor-pointer">Forgot your password?</Link>
               </div>
 
               <div>
@@ -244,13 +248,13 @@ export default function AuthForm({ isOnVerifyPage, parentPhoneNumber }: isOnVeri
               timeRemaining !== null && (
                 <div className="text-sm text-gray-500 mt-2 flex items-center gap-2">
                   <span className={clsx('w-4 h-4 rounded-full animate-pulse', timeRemaining > 0 ? 'bg-green-500' : 'bg-red-600')} />
-                    {
-                      timeRemaining > 0 ? (
-                        <span>Time remaining: {formatTimeRemaining(timeRemaining)}</span>
+                  {
+                    timeRemaining > 0 ? (
+                      <span>Time remaining: {formatTimeRemaining(timeRemaining)}</span>
                     ) : (
-                        <span>Verification code expired<span className="underline text-teal-600 cursor-pointer" onClick={()=>handleSendSms(phoneNumber)}> Resend Code </span></span>
+                      <span>Verification code expired<span className="underline text-teal-600 cursor-pointer" onClick={() => handleSendSms(phoneNumber)}> Resend Code </span></span>
                     )
-                    }
+                  }
                 </div>
               )
             }
