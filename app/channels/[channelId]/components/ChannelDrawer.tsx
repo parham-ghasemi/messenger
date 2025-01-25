@@ -149,8 +149,8 @@ const ChannelDrawer: React.FC<ChannelDrawerProps> = ({
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <div className="flex flex-col items-center">
                           <div className="mb-2">
-                            <div className="flex items-center justify-center w-20 h-20 bg-purple-200 rounded-2xl">
-                              <MdTag size={32} className="text-purple-500" />
+                            <div className="flex items-center justify-center w-20 h-20 rounded-2xl" style={{backgroundColor: `${data.color}30`}}>
+                              <MdTag size={32} style={{color: data.color}} />
                             </div>
                           </div>
 
