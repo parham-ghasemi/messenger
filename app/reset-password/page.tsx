@@ -133,7 +133,7 @@ const page = () => {
 
   return (
     <div className="flex h-full flex-col justify-center items-center bg-gray-200">
-      <div className="min-w-1/4 rounded-md px-9 py-8 bg-white">
+      <div className="sm:w-full sm:max-w-md rounded-md sm:px-10 px-4 py-8 bg-white">
         {
           onNewPassPage ? (
             <form className="w-full h-full flex flex-col gap-5">
