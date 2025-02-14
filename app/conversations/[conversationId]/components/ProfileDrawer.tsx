@@ -9,10 +9,10 @@ import { Fragment, useMemo, useState } from "react"
 import { Dialog, Transition } from '@headlessui/react'
 import { IoClose, IoTrash } from "react-icons/io5"
 // import Avatar from "@/app/components/Avatar"
-// import ConfirmModal from "./ConfirmModal"
+import ConfirmModal from "./ConfirmModal"
 import AvatarGroup from "@/app/components/AvatarGroup"
 import useActiveList from "@/app/hooks/useActiveList"
-import UnAvalableModal from "@/app/components/UnAvalableModal"
+// import UnAvalableModal from "@/app/components/UnAvalableModal"
 import ProfileDrawerAvatar from "./ProfileDrawerAvatar"
 
 interface ProfileDrawerProps {
@@ -25,8 +25,8 @@ interface ProfileDrawerProps {
 
 const ProfileDrawer:React.FC<ProfileDrawerProps> = ({isOpen, onClose, data}) => {
     const otherUser = useOtherUser(data);
-    // const [confirmOpen, setConfirmOpen] = useState(false)
-    const [unAvalableOpen, setUnAvalableOpen] = useState(false)
+    const [confirmOpen, setConfirmOpen] = useState(false)
+    // const [unAvalableOpen, setUnAvalableOpen] = useState(false)
 
     const { members } = useActiveList();
     const isActive = members.indexOf(otherUser?.phoneNumber!) !== -1;
@@ -50,11 +50,11 @@ const ProfileDrawer:React.FC<ProfileDrawerProps> = ({isOpen, onClose, data}) => 
 
     return (
       <>
-      {/* <ConfirmModal
+      <ConfirmModal
         isOpen={confirmOpen} 
         onClose={() => setConfirmOpen(false)}
-      /> */}
-      <UnAvalableModal isOpen={unAvalableOpen} onClose={() => setUnAvalableOpen(false)} />
+      />
+      {/* <UnAvalableModal isOpen={unAvalableOpen} onClose={() => setUnAvalableOpen(false)} /> */}
 
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog as="div" className='relative z-50' onClose={onClose}>
@@ -94,8 +94,8 @@ const ProfileDrawer:React.FC<ProfileDrawerProps> = ({isOpen, onClose, data}) => 
                                                 <div>{title}</div>
                                                 <div className="text-sm text-gray-500">{statusText}</div>
                                                 <div className="flex gap-10 my-8">
-                                                    {/* <div onClick={()=>setConfirmOpen(true)} className='flex flex-col gap-3 items-center cursor-pointer hover:opacity-75'> */}
-                                                    <div onClick={()=>setUnAvalableOpen(true)} className='flex flex-col gap-3 items-center cursor-pointer hover:opacity-75'>
+                                                    <div onClick={()=>setConfirmOpen(true)} className='flex flex-col gap-3 items-center cursor-pointer hover:opacity-75'>
+                                                    {/* <div onClick={()=>setUnAvalableOpen(true)} className='flex flex-col gap-3 items-center cursor-pointer hover:opacity-75'> */}
                                                         <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center">
                                                             <IoTrash size={20} />
                                                         </div>
