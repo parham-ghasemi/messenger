@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
 
   try {
-    await sendTokenViaSms(phoneNumber, token.token);
+    // await sendTokenViaSms(phoneNumber, token.token);
     return NextResponse.json(token, { status: 200 })
   } catch (error) {
     console.error('Error sending SMS:', error);

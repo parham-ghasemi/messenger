@@ -32,7 +32,7 @@ export async function POST(request: Request) {
         phoneNumber,
         name,
         hashedPassword,
-        verified: true
+        verified: false
       }
     });
 
