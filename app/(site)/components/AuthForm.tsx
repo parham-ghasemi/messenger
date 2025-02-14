@@ -119,7 +119,7 @@ export default function AuthForm({ isOnVerifyPage, parentPhoneNumber }: isOnVeri
           setOnVerifyPage(true);
           setPassword(data.password);
           setPhoneNumber(data.phoneNumber);
-          handleSendSms(data.phoneNumber); // Send SMS
+          // handleSendSms(data.phoneNumber); // Send SMS
         })
         .catch(() => toast.error('Something went wrong'))
         .finally(() => setIsLoading(false));
